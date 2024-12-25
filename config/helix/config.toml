@@ -1,5 +1,10 @@
-theme = "flatwhite"
+theme = "gruvbox_light_soft"
 
 [editor]
 true-color = true
 line-number = "relative"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"

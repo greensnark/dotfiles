@@ -1,0 +1,1 @@
+/home/snark/Dropbox/snarksh/config/wezterm/wezterm.lua
