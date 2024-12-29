@@ -8,11 +8,6 @@ set termguicolors
 set hidden
 set grepprg=rg\ --vimgrep
 set background=light
-if has('mac')
-    set clipboard=unnamed
-else
-    set clipboard=unnamedplus
-endif
 set fillchars+=vert:\│
 set maxmempattern=2000000
 set synmaxcol=200000
@@ -45,10 +40,6 @@ augroup vimrc
     au BufRead,BufNewFile *.wsgi,*.py
                 \ setlocal ft=python
                 \ | set sts=4 sw=4 expandtab autoindent fileformat=unix
-    au BufRead,BufNewFile *.go
-        \ setlocal ts=4
-        \ | nnoremap <buffer> <Leader>i :GoInstall .<CR>
-        \ | nnoremap <buffer> <Leader>B :GoBuild .<CR>
 
     au BufRead,BufNewFile *.sql
                 \ setlocal ignorecase
@@ -58,28 +49,14 @@ augroup vimrc
         \ au! BufEnter COMMIT_EDITMSG setlocal formatoptions+=n
 
     au BufRead,BufNewFile *.txt set ft=none
-
-    au FileType rust
-        \ nmap gd <Plug>(rust-def)
-        \ | nmap gs <Plug>(rust-def-split)
-        \ | nmap gx <Plug>(rust-def-vertical)
-        \ | nmap <Leader>gd <Plug>(rust-doc)
 augroup END
 
 set formatlistpat=^\\s*\\(\\d\\+\\\|[*#-]\\)[\\]:.)}\\t\ ]\\s*
 set hlsearch incsearch ruler laststatus=2
 set shiftwidth=4 softtabstop=4 expandtab autoindent
 
-" Configure vim with correct 24-bit color escapes for st (neovim doesn't need these):
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-" Cursor shapes for Start Insert, Start Replace and End Insert, vim only,
-" neovim discovers these automatically from terminfo
-let &t_SI = "\<Esc>[5 q"
-let &t_SR = "\<Esc>[4 q"
-let &t_EI = "\<Esc>[1 q"
-
+nnoremap <Space>y "+y
+nnoremap <Space>p "+p
 cnoremap <C-g> <C-c>
 
 " Delete to backspace in all modes:
@@ -143,8 +120,6 @@ let mapleader='\'
 
 let g:csv_no_conceal = 1
 
-let g:rustfmt_autosave = 1
-
 :command! -nargs=1 -range SuperRetab <line1>,<line2>s/\v%(^ *)@<= {<args>}/\t/g
 
 " binds <leader> + w, b, e, ge:
@@ -159,7 +134,6 @@ nnoremap <Leader>f :Buffers<CR>
 nnoremap <Leader>ev :e ~/.vim/init.vim<CR>
 nnoremap <Leader>evs :source ~/.vim/init.vim<CR>
 nnoremap <silent> <Leader>G :<C-u>cd %:p:h<CR>:echo "Changed directory to " . getcwd()<CR>
-nnoremap <Space> <C-D>
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 xmap ga <Plug>(EasyAlign)
