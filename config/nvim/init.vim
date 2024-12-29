@@ -106,12 +106,15 @@ Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'junegunn/vim-easy-align'
 Plug 'lifepillar/pgsql.vim'
 Plug 'mattn/emmet-vim'
-Plug 'mattn/vim-lsp-settings'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'romgrk/github-light.vim'
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 Plug 'pangloss/vim-javascript'
-Plug 'prabirshrestha/vim-lsp'
 Plug 'sheerun/vim-polyglot'
 Plug 'tommcdo/vim-express'
 Plug 'tpope/vim-abolish'
@@ -170,24 +173,52 @@ inoremap <C-X><C-Q> </<C-X><C-O>
 " Practical Vim idea: make ^L also :nohls
 nnoremap <silent> <C-L> :<C-u>nohlsearch<CR><C-L>
 
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
+lua <<LSP_CONFIG
+local configured_lsps = {
+    "rust_analyzer",
+    "lua_ls", -- lua-language-server
+    "pyright",
+}
 
-    " refer to doc to add more commands
-endfunction
+vim.opt.signcolumn = 'yes'
 
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
+vim.api.nvim_create_autocmd('LspAttach', {
+    desc = 'LSP actions',
+    callback = function (event)
+        local opts = {buffer = event.buf}
+        local key = vim.keymap.set
+        key('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+        key('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+        key('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+        key('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+        key('n', 'gT', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+        key('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+        key('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+        key('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+        key({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+        key('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+        key('i', '<C-x><C-o>', '<cmd>lua require("cmp").mapping.complete()<cr>', opts)
+    end,
+})
+
+local cmp = require('cmp')
+cmp.setup({
+    sources = cmp.config.sources({{name = "nvim_lsp"}}, {{name = "buffer"}}),
+    mapping = cmp.mapping.preset.insert({
+        ['<C-space>'] = cmp.mapping.complete(),
+        ['<cr>'] = cmp.mapping.confirm({select = true}),
+        ['<Tab>'] = cmp.mapping.confirm({select = true}),
+        ['<C-c>'] = cmp.mapping.abort(),
+    }),
+    snippet = {
+        expand = function (args)
+            vim.snippet.expand(args.body)
+        end,
+    },
+})
+
+cmp_nvim_lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+for i, analyzer in ipairs(configured_lsps) do
+    require('lspconfig')[analyzer].setup({ completion = cmp_nvim_lsp_capabilities })
+end
+LSP_CONFIG
