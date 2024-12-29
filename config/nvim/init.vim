@@ -57,6 +57,7 @@ set shiftwidth=4 softtabstop=4 expandtab autoindent
 
 nnoremap <Space>y "+y
 nnoremap <Space>p "+p
+nnoremap <Space>P "+P
 cnoremap <C-g> <C-c>
 
 " Delete to backspace in all modes:
@@ -65,6 +66,7 @@ inoremap <Char-0x7f> <BS>
 cnoremap <Char-0x7f> <BS>
 
 let g:sql_type_default = 'pgsql'
+let g:table_mode_corner = '|'
 
 call plug#begin('~/.vim/plugged')
 Plug 'MaxMEllon/vim-jsx-pretty'
@@ -76,7 +78,6 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
@@ -90,7 +91,6 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'romgrk/github-light.vim'
-Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 Plug 'pangloss/vim-javascript'
 Plug 'sheerun/vim-polyglot'
 Plug 'tommcdo/vim-express'
