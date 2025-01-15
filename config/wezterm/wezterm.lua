@@ -9,8 +9,9 @@ end)
 return {
   enable_wayland = false,
   font = wezterm.font('Fira Code'),
-  font_size = 15,
+  font_size = 14,
   cell_width = 0.9,
+  line_height = 0.9,
   cursor_thickness = 4,
   color_scheme = 'AtomOneLight',
   hide_tab_bar_if_only_one_tab = true,
