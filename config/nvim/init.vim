@@ -149,9 +149,10 @@ nnoremap <silent> <C-L> :<C-u>nohlsearch<CR><C-L>
 
 lua <<LSP_CONFIG
 local configured_lsps = {
-    "rust_analyzer",
+    "gopls",
     "lua_ls", -- lua-language-server
     "pyright",
+    "rust_analyzer",
 }
 
 vim.opt.signcolumn = 'yes'
