@@ -153,6 +153,7 @@ local configured_lsps = {
     "lua_ls", -- lua-language-server
     "pyright",
     "rust_analyzer",
+    "ts_ls",
 }
 
 vim.opt.signcolumn = 'yes'
@@ -173,6 +174,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         key({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
         key('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
         key('i', '<C-x><C-o>', '<cmd>lua require("cmp").mapping.complete()<cr>', opts)
+        key('n', ']g', vim.diagnostic.goto_next)
+        key('n', '[g', vim.diagnostic.goto_prev)
     end,
 })
 
