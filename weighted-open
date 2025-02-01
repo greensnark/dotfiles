@@ -1,0 +1,28 @@
+#! /usr/bin/env perl
+
+use strict;
+
+my @files = @ARGV;
+
+my $weight_sum = 0;
+my $chosen_file;
+
+sub file_weight($) {
+  my $file = shift;
+  my ($weight) = $file =~ /\[(\d+)\]/;
+  $weight || 0
+}
+
+for my $file (@files) {
+  my $weight = file_weight($file);
+  $weight_sum += $weight;
+  my $roll = int(rand($weight_sum));
+  if ($roll < $weight) {
+    $chosen_file = $file;
+  }
+}
+
+if ($chosen_file) {
+  print STDERR "> open $chosen_file\n";
+  exec("xdg-open", $chosen_file);
+}
