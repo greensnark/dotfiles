@@ -153,6 +153,7 @@ local configured_lsps = {
     "lua_ls", -- lua-language-server
     "pyright",
     "rust_analyzer",
+    "svelte",
     "ts_ls",
 }
 
