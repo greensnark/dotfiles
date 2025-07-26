@@ -1,0 +1,8 @@
+#! /usr/bin/env zsh
+
+set -o errexit -o pipefail
+
+path+=("${0:A:h}")
+export PATH
+
+exec lx-focus-window wezterm snark-term

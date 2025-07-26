@@ -1,0 +1,8 @@
+#! /usr/bin/env zsh
+
+set -o errexit -o pipefail
+
+log: jj git init --colocate
+for branch in "$(jj b l --template=name --no-pager)"; do
+  log: jj b track "$branch@origin"
+done
