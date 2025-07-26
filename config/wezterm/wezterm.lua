@@ -7,6 +7,7 @@ wezterm.on('gui-startup', function (cmd)
 end)
 
 return {
+  cursor_blink_rate = 0,
   enable_wayland = false,
   font = wezterm.font('Fira Code'),
   font_size = 14,
