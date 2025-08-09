@@ -55,6 +55,7 @@ set formatlistpat=^\\s*\\(\\d\\+\\\|[*#-]\\)[\\]:.)}\\t\ ]\\s*
 set hlsearch incsearch ruler laststatus=2
 set shiftwidth=4 softtabstop=4 expandtab autoindent
 
+vnoremap <Space>y "+y
 nnoremap <Space>y "+y
 nnoremap <Space>p "+p
 nnoremap <Space>P "+P
