@@ -13,6 +13,7 @@ fi
 readonly existing_window_id=$(wmctrl -lx | grep "$title" | awk '{print $1}')
 
 if [[ -n $existing_window_id ]]; then
+    >&2 echo "> Focusing existing window: $existing_window_id"
     exec wmctrl -ia "$existing_window_id"
 else
     >&2 echo "> Starting app: $app"
