@@ -17,6 +17,10 @@ set number relativenumber
 set lazyredraw undofile
 set timeoutlen=3000
 set sw=4
+set clipboard=unnamedplus
+if has('mac')
+    set clipboard=unnamed
+endif
 
 command! RLine execute 'normal! '.(system('/bin/bash -c "echo -n $RANDOM"') % line('$')).'G'
 
@@ -55,10 +59,6 @@ set formatlistpat=^\\s*\\(\\d\\+\\\|[*#-]\\)[\\]:.)}\\t\ ]\\s*
 set hlsearch incsearch ruler laststatus=2
 set shiftwidth=4 softtabstop=4 expandtab autoindent
 
-vnoremap <Space>y "+y
-nnoremap <Space>y "+y
-nnoremap <Space>p "+p
-nnoremap <Space>P "+P
 cnoremap <C-g> <C-c>
 
 " Delete to backspace in all modes:
