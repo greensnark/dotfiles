@@ -85,6 +85,8 @@ Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'junegunn/vim-easy-align'
 Plug 'lifepillar/pgsql.vim'
 Plug 'mattn/emmet-vim'
+Plug 'mason-org/mason.nvim'
+Plug 'mason-org/mason-lspconfig.nvim'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
@@ -132,8 +134,8 @@ nnoremap <Leader>- :set nonumber norelativenumber<CR>
 nnoremap <Leader>= :set number relativenumber<CR>
 nnoremap <Leader>\ :Files<CR>
 nnoremap <Leader>f :Buffers<CR>
-nnoremap <Leader>ev :e ~/.vim/init.vim<CR>
-nnoremap <Leader>evs :source ~/.vim/init.vim<CR>
+nnoremap <Leader>ev :e ~/.config/nvim/init.vim<CR>
+nnoremap <Leader>evs :source ~/.config/nvim/init.vim<CR>
 nnoremap <silent> <Leader>G :<C-u>cd %:p:h<CR>:echo "Changed directory to " . getcwd()<CR>
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
@@ -149,6 +151,9 @@ inoremap <C-X><C-Q> </<C-X><C-O>
 nnoremap <silent> <C-L> :<C-u>nohlsearch<CR><C-L>
 
 lua <<LSP_CONFIG
+require("mason").setup()
+require("mason-lspconfig").setup()
+
 local configured_lsps = {
     "gopls",
     "lua_ls", -- lua-language-server
@@ -198,7 +203,7 @@ cmp.setup({
 })
 
 cmp_nvim_lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-for i, analyzer in ipairs(configured_lsps) do
-    require('lspconfig')[analyzer].setup({ completion = cmp_nvim_lsp_capabilities })
-end
+-- for i, analyzer in ipairs(configured_lsps) do
+--     vim.lsp.config[analyzer].setup({ completion = cmp_nvim_lsp_capabilities })
+-- end
 LSP_CONFIG
