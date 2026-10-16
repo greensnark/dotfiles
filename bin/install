@@ -20,6 +20,10 @@ nix-install() {
 }
 
 main() {
+  if ! command -v nix &>/dev/null; then
+    >&2 echo "> nix isn't installed, please install it"
+    exit 2
+  fi
   for tool in "${NIX[@]}"; do
     if ! tool-exists "$tool"; then
       nix-install "$tool"
