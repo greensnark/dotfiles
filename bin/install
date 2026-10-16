@@ -1,0 +1,30 @@
+#! /bin/zsh -f
+
+set -o errexit -o pipefail
+
+NIX=(
+  neovim=nvim
+  tmux
+)
+
+tool-exists() {
+  local tool="$1"
+  tool="${tool##*=}"
+  command -v "$tool" &>/dev/null
+}
+
+nix-install() {
+  local tool="$1"
+  tool="${tool%%=*}"
+  log: nix profile add "nixpkgs#$tool"
+}
+
+main() {
+  for tool in "${NIX[@]}"; do
+    if ! tool-exists "$tool"; then
+      nix-install "$tool"
+    fi
+  done
+}
+
+main

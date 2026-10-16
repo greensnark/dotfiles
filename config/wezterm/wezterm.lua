@@ -6,12 +6,22 @@ wezterm.on('gui-startup', function (cmd)
   window:gui_window():maximize()
 end)
 
+function ismac() return wezterm.target_triple:find("darwin") end
+
+function ifmac(value)
+  if ismac() then return value end
+end
+
+function window_padding(size)
+  return { left = size, right = size, top = size, bottom = size }
+end
+
 return {
   audible_bell = 'Disabled',
   cursor_blink_rate = 0,
   enable_wayland = false,
   font = wezterm.font('Fira Code'),
-  font_size = 13,
+  font_size = 14,
   cell_width = 0.9,
   line_height = 0.9,
   cursor_thickness = 4,
@@ -21,5 +31,5 @@ return {
   initial_rows = 160,
   window_close_confirmation = 'NeverPrompt',
   window_decorations = "NONE",
-  window_padding = { left = 0, right = 0, top = 0, bottom = 0 },
+  window_padding = window_padding(ifmac(20) or 0),
 }
