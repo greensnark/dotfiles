@@ -1,0 +1,18 @@
+#! /bin/zsh -f
+
+set -o errexit -o pipefail
+
+tool="$1"
+tool="${tool##*=}"
+
+if [[ -z $tool || $* == -h || $* == --help ]]; then
+  >&2 cat <<USAGE
+Usage: ${0:t} (tool)
+
+Checks if a tool exists on the PATH. If given a tool name
+in the form x=y, checks that \`y\` exists on PATH.
+USAGE
+  exit 1
+fi
+
+command -v "$tool"

@@ -1,0 +1,21 @@
+#! /bin/zsh -f
+
+set -o errexit -o pipefail
+
+if [[ -z $* || $* == -h || $* == --help ]]; then
+  >&2 cat <<USAGE
+Usage: ${0:t} (tool)
+
+Ensures (tool) is installed via nix; skips the install if the tool's already on
+PATH.
+USAGE
+  exit 1
+fi
+
+path+=("${0:A:h}")
+
+for tool in "$@"; do
+  if ! tool-exists "$tool" &>/dev/null; then
+    nix-install "$tool"
+  fi
+done

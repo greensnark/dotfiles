@@ -1,0 +1,20 @@
+#! /bin/zsh -f
+
+set -o errexit -o pipefail
+
+tool="$1"
+tool="${tool%%=*}"
+
+if [[ -z $tool || $* == -h || $* == --help ]]; then
+  >&2 cat <<USAGE
+Usage: ${0:t} (tool)
+
+Installs a tool into the global nix profile using nix profile add.
+
+The tool name must be the name as nix recognizes it. If given a name
+in the form \`x=y\`, such as \`neovim=nvim\`, installs \`x\`
+USAGE
+  exit 1
+fi
+
+NIXPKGS_ALLOW_UNFREE=1 exec log: nix profile add --impure "nixpkgs#$tool"

@@ -1,0 +1,12 @@
+onboarding = false
+
+[theme]
+name = "catppuccin-latte"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+o"
+focus_agent = "prefix+alt+1..9"
+
+[ui]
+mouse_capture = false

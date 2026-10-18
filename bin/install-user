@@ -1,0 +1,19 @@
+#! /bin/zsh -f
+
+set -o errexit -o pipefail
+
+ROOT="${0:A:h}"
+install_source_dir="$1"
+if [[ -z $install_source_dir || ! -d $install_source_dir || $* == -h || $* == --help ]]; then
+  >&2 cat <<USAGE
+Usage: ${0:t} (install-source-dir)
+
+Runs all install scripts in the form install.* in the given source directory.
+USAGE
+  exit 1
+fi
+
+path+=("$ROOT")
+for script in "$install_source_dir"/install.*; do
+  "$script"
+done
