@@ -12,6 +12,10 @@ NIX=(
   git-lfs
   pi-coding-agent=pi
   herdr
+  ripgrep=rg
+  fd
+  zoxide
+  tree
 )
 
 main() {
